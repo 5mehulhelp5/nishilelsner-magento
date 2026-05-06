@@ -7,28 +7,40 @@ namespace Practice\Waitlist\Controller\Manage;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\HttpPostActionInterface;
+use Magento\Framework\App\CsrfAwareActionInterface;
+use Magento\Framework\App\Request\InvalidRequestException;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Practice\Waitlist\Model\WaitlistFactory;
 
-
-class Submit extends Action implements HttpPostActionInterface
+class Submit extends Action implements HttpPostActionInterface, CsrfAwareActionInterface
 {
     protected $resultJsonFactory;
+    protected $waitlistFactory;
 
     public function __construct(
-    Context $context,
-    JsonFactory $resultJsonFactory,
-    WaitlistFactory $waitlistFactory
-) {
-    parent::__construct($context);
-    $this->resultJsonFactory = $resultJsonFactory;
-    $this->waitlistFactory = $waitlistFactory;
-}
+        Context $context,
+        JsonFactory $resultJsonFactory,
+        WaitlistFactory $waitlistFactory
+    ) {
+        parent::__construct($context);
+        $this->resultJsonFactory = $resultJsonFactory;
+        $this->waitlistFactory = $waitlistFactory;
+    }
+
+    public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
+    {
+        return null;
+    }
+
+    public function validateForCsrf(RequestInterface $request): ?bool
+    {
+        return true;
+    }
 
     public function execute(){
        $result = $this->resultJsonFactory->create();
-    
        if (!$this->getRequest()->isPost()) {
            return $result->setData(['success' => false, 'message' => 'Invalid request']);
        }
