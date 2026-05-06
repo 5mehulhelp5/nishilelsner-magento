@@ -12,11 +12,41 @@
     </div>
 
     <!-- Waitlist Form -->
-    <div class="waitlist-form">
-        <input type="text" placeholder="Your Name" id="waitlist-name"/>
-        <input type="email" placeholder="Your Email" id="waitlist-email"/>
-        <input type="tel" placeholder="Your Phone" id="waitlist-phone"/>
-        <textarea placeholder="Comments" id="waitlist-comment"></textarea>
-        <button type="button" id="waitlist-submit">Submit</button>
+    <div class="waitlist-form" id="waitlist-form-content">
+        <?= $block->getBlockHtml('formkey') ?>
+        <input type="hidden" id="waitlist-product-id" name="product_id" value="<?= $block->escapeHtmlAttr($_product->getId()) ?>"/>
+        <fieldset class="fieldset">
+            <div class="field name required">
+                <label class="label" for="waitlist-name"><span>Name</span></label>
+                <div class="control">
+                    <input type="text" id="waitlist-name" name="customer_name" class="input-text" data-validate="{required:true}" placeholder="Your Name"/>
+                </div>
+            </div>
+            <div class="field email required">
+                <label class="label" for="waitlist-email"><span>Email</span></label>
+                <div class="control">
+                    <input type="email" id="waitlist-email" name="customer_email" class="input-text" data-validate="{required:true, 'validate-email':true}" placeholder="Your Email"/>
+                </div>
+            </div>
+            <div class="field phone required">
+                <label class="label" for="waitlist-phone"><span>Phone</span></label>
+                <div class="control">
+                    <input type="tel" id="waitlist-phone" name="customer_phone" class="input-text" data-validate="{required:true}" placeholder="Your Phone"/>
+                </div>
+            </div>
+            <div class="field comment required">
+                <label class="label" for="waitlist-comment"><span>Comments</span></label>
+                <div class="control">
+                    <textarea id="waitlist-comment" name="customer_comment" class="input-text" data-validate="{required:true}" placeholder="Comments"></textarea>
+                </div>
+            </div>
+        </fieldset>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="submit" class="action submit primary" id="waitlist-submit">
+                    <span>Submit</span>
+                </button>
+            </div>
+        </div>
     </div>
 </div>
