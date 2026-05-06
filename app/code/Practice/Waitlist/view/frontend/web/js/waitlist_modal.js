@@ -42,32 +42,35 @@ define([
                         if (response.success) {
                             $('#join-waitlist-modal').modal('closeModal');
                             $form[0].reset();
-                            require(['Magento_Customer/js/customer-data'], function (customerData) {
-                                customerData.set('messages', {
-                                    messages: [{
-                                        type: 'success',
-                                        text: response.message || 'You have been successfully added to the waitlist.'
-                                    }]
+                            require(['Magento_Ui/js/modal/alert'], function (alert) {
+                                alert({
+                                    title: $.mage.__('Success'),
+                                    content: response.message || $.mage.__('You have been successfully added to the waitlist.'),
+                                    actions: {
+                                        always: function(){}
+                                    }
                                 });
                             });
                         } else {
-                            require(['Magento_Customer/js/customer-data'], function (customerData) {
-                                customerData.set('messages', {
-                                    messages: [{
-                                        type: 'error',
-                                        text: response.message || 'An error occurred while submitting the waitlist.'
-                                    }]
+                            require(['Magento_Ui/js/modal/alert'], function (alert) {
+                                alert({
+                                    title: $.mage.__('Error'),
+                                    content: response.message || $.mage.__('An error occurred while submitting the waitlist.'),
+                                    actions: {
+                                        always: function(){}
+                                    }
                                 });
                             });
                         }
                     },
                     error: function () {
-                        require(['Magento_Customer/js/customer-data'], function (customerData) {
-                            customerData.set('messages', {
-                                messages: [{
-                                    type: 'error',
-                                    text: 'An error occurred while submitting the request.'
-                                }]
+                        require(['Magento_Ui/js/modal/alert'], function (alert) {
+                            alert({
+                                title: $.mage.__('Error'),
+                                content: $.mage.__('An error occurred while submitting the request.'),
+                                actions: {
+                                    always: function(){}
+                                }
                             });
                         });
                     }
